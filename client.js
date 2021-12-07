@@ -1,4 +1,4 @@
-const employees = [
+const employeeObject = [
   {
     name: 'Atticus',
     employeeNumber: '2405',
@@ -32,14 +32,13 @@ const employees = [
 ];
 
 // YOU SHOULD NOT NEED TO CHANGE ANYTHING ABOVE THIS POINT
-
 // This problem is massive! Break the problem down, take small steps, and test as you go.
 // What is the fewest lines of code I can write and test to get just a little closer?
 
 // This is not a race. Everyone on your team should understand what is happening.
 // Ask questions when you don't.
 
-console.log( employees );
+console.log( employeeObject );
 
 /*
 ### Individual Bonus calculation
@@ -66,7 +65,51 @@ If employeeNumber.length === 4 {
 console.log('they have been with the company for longer than 15 years');
 - However, if annualSalary > $65,000 they should have their bonus adjusted down 1%.
 */
+let bonusArray = [];
 
-function calculateBonus(employeeArray) {
-
+function BonusObj(name, bonusPercentage, totalCompensation, totalBonus) {
+  
+    this.name = name,
+    this.bonusPercentage = bonusPercentage,
+    this.totalCompensation = totalCompensation,
+    this.totalBonus = totalBonus
 }
+
+function calculateBonus(employeeObject) {
+  let employeeBonus = 0;
+  let bonusPercent = 0;
+  
+    if ( employeeObject.employeeNumber.length === 4) {
+      bonusPercent += 0.05;
+    }
+    if (employeeObject.reviewRating <= 2 ){
+      employeeBonus += 0;
+    } else if (employeeObject.reviewRating === 3 ){
+      bonusPercent += .04;
+      employeeBonus = bonusPercent * employeeObject.annualSalary;
+    } else if (employeeObject.reviewRating === 5  ){
+      bonusPercent += .1;
+      employeeBonus = bonusPercent * employeeObject.annualSalary;
+    }
+    
+    if( bonusPercent < 0) { 
+      bonusPercent = 0;
+    } else if(bonusPercent > 0.13 ) {
+      bonusPercent = 0.13;
+    }
+
+  let bonusResult = {
+    name: employeeObject.name, 
+    bonusPercentage: bonusPercent, 
+    totalCompensation: employeeObject.annualSalary + employeeObject.annualSalary * employeeBonus, 
+    totalBonus: employeeObject.annualSalary * employeeBonus
+  };
+  return bonusResult;
+}
+
+let bonusResult = {}
+for(i=0; i<employeeObject.length; i++) {
+  bonusResult = calculateBonus(employeeObject[i]);
+  bonusArray.push(bonusResult);
+}
+console.log(bonusArray);
